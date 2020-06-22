@@ -19,31 +19,36 @@ class Animal:
         print(f'{self.__class__.__name__} {self.name} - подстригли')
 
 class Goose(Animal):
-
+    '''  Создаём подкласс гусей '''
     def __init__(self, name, weight):
       super().__init__(name, weight, 'Га-га')
 
 class Cow(Animal):
+    '''  Создаём подкласс коров '''
 
     def __init__(self, name, weight):
       super().__init__(name, weight, 'Му-му')
 
 class Sheep(Animal):
+    '''  Создаём подкласс овец '''
 
     def __init__(self, name, weight):
       super().__init__(name, weight, 'Бе-бе')
 
 class Chiken(Animal):
+    '''  Создаём подкласс куриц '''
 
     def __init__(self, name, weight):
       super().__init__(name, weight, 'Ко-ко')
 
 class Goat(Animal):
+    '''  Создаём подкласс коз '''
 
     def __init__(self, name, weight):
       super().__init__(name, weight, 'Ме-ме')
 
 class Duck(Animal):
+    '''  Создаём подкласс уток '''
 
     def __init__(self, name, weight):
       super().__init__(name, weight, 'Кря-кря')
@@ -92,8 +97,8 @@ all_animals = dict({goose1.name: goose1.weight, goose2.name: goose2.weight, cow1
                     sheep1.name: sheep1.weight, sheep2.name: sheep2.weight, chiken1.name: chiken1.weight,
                     chiken2.name: chiken2.weight, goat1.name: goat1.weight, goat2.name: goat2.weight,
                     duck1.name: duck1.weight})
-#print(max(goose1.weight, goose2.weight, cow1.weight, sheep1.weight, sheep2.weight,
-       # chiken1.weight, chiken2.weight, goat1.weight, goat2.weight, duck1.weight))
+
+''' Ищем животное с максимальным весом'''
 max_weight = max(all_animals.values())
 for n, w in all_animals.items():
   if w == max_weight:
