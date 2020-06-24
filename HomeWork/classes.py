@@ -1,29 +1,36 @@
 class Animal:
     ''' создаём общий класс животных, в котором будем производить все действия с ними'''
 
+    all_animals = {}
+
     def __init__(self, name, weight, voice):
       self.name = name
       self.voice = voice
       self.weight = weight
+      self.all_animals[name] = weight
 
     def eat(self):
        print(f'{self.__class__.__name__} {self.name} - покормили')
 
-    def milk(self):
-        print(f'{self.__class__.__name__} {self.name} - подоили')
+class Bird(Animal):
+    '''  Создаём подкласс птиц '''
 
     def egg(self):
         print(f'{self.__class__.__name__} {self.name} - собрали яйца')
 
-    def cut(self):
-        print(f'{self.__class__.__name__} {self.name} - подстригли')
+class GiveMilkAnimal(Animal):
+    '''  Создаём подкласс животных, дающих молоко '''
 
-class Goose(Animal):
+    def milk(self):
+        print(f'{self.__class__.__name__} {self.name} - подоили')
+
+class Goose(Bird):
     '''  Создаём подкласс гусей '''
+
     def __init__(self, name, weight):
       super().__init__(name, weight, 'Га-га')
 
-class Cow(Animal):
+class Cow(GiveMilkAnimal):
     '''  Создаём подкласс коров '''
 
     def __init__(self, name, weight):
@@ -35,19 +42,22 @@ class Sheep(Animal):
     def __init__(self, name, weight):
       super().__init__(name, weight, 'Бе-бе')
 
-class Chiken(Animal):
+    def cut(self):
+      print(f'{self.__class__.__name__} {self.name} - подстригли')
+
+class Chiken(Bird):
     '''  Создаём подкласс куриц '''
 
     def __init__(self, name, weight):
       super().__init__(name, weight, 'Ко-ко')
 
-class Goat(Animal):
+class Goat(GiveMilkAnimal):
     '''  Создаём подкласс коз '''
 
     def __init__(self, name, weight):
       super().__init__(name, weight, 'Ме-ме')
 
-class Duck(Animal):
+class Duck(Bird):
     '''  Создаём подкласс уток '''
 
     def __init__(self, name, weight):
@@ -90,16 +100,10 @@ duck1 = Duck('Кряква', 6)
 duck1.eat()
 duck1.egg()
 
-print('Общий вес всех животных: ', goose1.weight + goose2.weight + cow1.weight + sheep1.weight + sheep2.weight /
-      + chiken1.weight + chiken2.weight + goat1.weight + goat2.weight + duck1.weight, 'кг')
-
-all_animals = dict({goose1.name: goose1.weight, goose2.name: goose2.weight, cow1.name: cow1.weight,
-                    sheep1.name: sheep1.weight, sheep2.name: sheep2.weight, chiken1.name: chiken1.weight,
-                    chiken2.name: chiken2.weight, goat1.name: goat1.weight, goat2.name: goat2.weight,
-                    duck1.name: duck1.weight})
+print('Общий вес всех животных: ', sum(Animal.all_animals.values()))
 
 ''' Ищем животное с максимальным весом'''
-max_weight = max(all_animals.values())
-for n, w in all_animals.items():
-  if w == max_weight:
+max_weight = max(Animal.all_animals.values())
+for n, w in Animal.all_animals.items():
+   if w == max_weight:
       print(f'самый большой вес - {w}кг у {n}')
