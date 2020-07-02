@@ -10,7 +10,7 @@ def top_ten_words_news_xml(file):
    items_list = root.findall("channel/item/description")
    word_news = []
    for description in items_list:
-      word_news.extend(description.text.split(' '))
+      word_news.extend(description.text.lower().split(' '))
    print('для файлов .xml')
    top_ten_words_news(word_news)
 

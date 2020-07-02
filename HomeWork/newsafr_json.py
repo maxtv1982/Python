@@ -8,7 +8,7 @@ def top_ten_words_news_json(file):
    news_list = json_data["rss"]["channel"]["items"]
    list_news = []
    for news in news_list:
-       list_news.extend(news["description"].split(' '))
+       list_news.extend(news["description"].lower().split(' '))
    print('для файлов .json')
    top_ten_words_news(list_news)
 
