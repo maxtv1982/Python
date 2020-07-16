@@ -15,10 +15,13 @@ class UserVK:
         return response.json()['response']['items']
 
     # метод поиска общих друзей пользователя user и пользователя UserID
-    def common_friends(self, user):
+    def __and__(self, user):
         friends1 = set(self.friends())
         friends2 = set(user.friends())
-        return friends1.intersection(friends2)
+        print(f'общие друзья пользователей - {friends1.intersection(friends2)}')
+
+    def __str__(self):
+        return f"профиль пользователя c id={self.UserID} https://vk.com/id{self.UserID}"
 
 
 id_1 = input('Введите id первого пользователя: ')
@@ -27,7 +30,7 @@ id_2 = input('Введите id второго пользователя: ')
 User1 = UserVK(id_1)
 User2 = UserVK(id_2)
 
-print(f'общие друзья пользователей - {User1.common_friends(User2)}')
+User1 & User2
 
-print(f"профиль пользователя c id={id_1} https://vk.com/id{id_1}")
-print(f"профиль пользователя c id={id_2} https://vk.com/id{id_2}")
+print(User1)
+print(User2)
