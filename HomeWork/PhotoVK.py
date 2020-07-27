@@ -1,6 +1,7 @@
 import os
 import sys
 import requests
+import json
 from google.oauth2 import service_account
 from googleapiclient.http import MediaIoBaseDownload, MediaFileUpload
 from googleapiclient.discovery import build
@@ -12,6 +13,7 @@ class UserVK:
         self.UserID = UserID
         # создаем пустой список фотографий
         self.photo_base = []
+
 
     def get_photo_album(self, album, count):
         """ копирования фотографий с профиля(стены) пользователя vk на компьютер """
@@ -39,10 +41,11 @@ class UserVK:
                 # загружаем фотографию на компьютер
                 download = requests.get(download_photo)
                 name_photo = f"{photo_info['file_name']}.jpg"
-                with open(os.path.join("..", "Photo_VK", name_photo), 'wb') as file:
+                with open(os.path.join("Photo_VK", name_photo), 'wb') as file:
                     file.write(download.content)
                 print(f" - фотография {name_photo} загружена c VK на компьютер -")
             print(f'список загруженных файлов - {self.photo_base}')
+            json.dumps(self.photo_base)
         else:
             sys.exit('Некорректные данные пользователя VK')
 
@@ -64,7 +67,7 @@ class YandexAPIClient(UserVK):
 
             photo_name = f"{photo['file_name']}.jpg"
             # открываем загружаемый файл
-            with open(os.path.join("..", "Photo_VK", photo_name), 'rb') as new_file:
+            with open(os.path.join("Photo_VK", photo_name), 'rb') as new_file:
                 my_file = new_file.read()
 
             # получаем загрузочную ссылку
@@ -105,7 +108,7 @@ class GoogleAPIClient(UserVK):
         print(' <<< отправляем фотографии на Google.диск >>>')
         for photo in self.photo_base:
             photo_name = f"{photo['file_name']}.jpg"
-            file_path = os.path.join("..", "Photo_VK", photo_name)
+            file_path = os.path.join("Photo_VK", photo_name)
             file_metadata = {'name': photo_name, 'parents': [folder_id_vk]}
             media = MediaFileUpload(file_path, resumable=True)
             r = service.files().create(body=file_metadata, media_body=media, fields='id').execute()
@@ -113,6 +116,10 @@ class GoogleAPIClient(UserVK):
 
 
 if __name__ == '__main__':
+
+    if not os.path.isdir("Photo_VK"):
+        os.mkdir("Photo_VK")
+
     with open(os.path.join("..", "..", "key.txt")) as f:
         token_vk = f.readline().rstrip()
         token_ya = f.readline().rstrip()
