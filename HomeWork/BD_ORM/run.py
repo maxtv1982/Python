@@ -30,7 +30,6 @@ if __name__ == '__main__':
                 session.commit()
             elif table == 'Book':
                 info = Book(id=item["pk"])
-                print(3)
                 session.add(info)
                 session.query(Book).filter(Book.id == item["pk"]).update(item["fields"])
                 session.commit()
@@ -46,10 +45,13 @@ if __name__ == '__main__':
                 session.commit()
 
 
-    # import_data('tests_data.json')
+    #import_data('tests_data.json')
     publisher_info = input('введите имя издателя: ')
     shops = session.query(Shop).join(Stock, Stock.id_shop == Shop.id).join(Book, Book.id == Stock.id_book)\
         .join(Publisher, Publisher.id == Book.id_publisher).filter(Publisher.name == publisher_info).all()
-    for shop in shops:
-         print(shop.name)
+    if len(shops) != 0:
+        for shop in shops:
+            print(shop.name)
+    else:
+        print('книг такого издателя в продаже нет')
 

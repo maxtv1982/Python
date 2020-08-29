@@ -47,15 +47,6 @@ class Sale(Base):
 
 
 
-DB_PATH = 'postgresql://postgres:maximus@localhost:5432/Book_shop'
-engine = sq.create_engine(DB_PATH)
-Session = sessionmaker(bind=engine)
-Session.configure(bind=engine)
-Base.metadata.create_all(engine)
 
 
-if __name__ == '__main__':
-    session = Session()
-    all_shops = session.query(Shop).all()
-    print(all_shops)
 
