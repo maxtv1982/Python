@@ -1,21 +1,25 @@
 import sqlalchemy as sq
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, sessionmaker
+
 
 Base = declarative_base()
 
-class Publisher (Base):
+
+class Publisher(Base):
     __tablename__ = 'publisher'
     id = sq.Column(sq.Integer, primary_key=True)
     name = sq.Column(sq.String)
     books = relationship('Book', backref='publisher', cascade='all, delete-orphan')
 
-class Book (Base):
+
+class Book(Base):
     __tablename__ = 'book'
     id = sq.Column(sq.Integer, primary_key=True)
-    name = sq.Column(sq.String)
+    title = sq.Column(sq.String)
     stock = relationship("Stock", backref='book', cascade='all, delete-orphan')
     id_publisher = sq.Column(sq.ForeignKey('publisher.id', ondelete='CASCADE'))
+
 
 class Shop(Base):
     __tablename__ = 'shop'
@@ -23,7 +27,8 @@ class Shop(Base):
     name = sq.Column(sq.String)
     stocks = relationship("Stock", backref='shop', cascade='all, delete-orphan')
 
-class Stock (Base):
+
+class Stock(Base):
     __tablename__ = 'stock'
     id = sq.Column(sq.Integer, primary_key=True)
     id_book = sq.Column(sq.ForeignKey('book.id', ondelete='CASCADE'))
@@ -31,10 +36,26 @@ class Stock (Base):
     count = sq.Column(sq.Integer)
     sales = relationship("Sale", backref='stock', cascade='all, delete-orphan')
 
-class Sale (Base):
+
+class Sale(Base):
     __tablename__ = 'sale'
     id = sq.Column(sq.Integer, primary_key=True)
-    price = sq.Column(sq. Numeric)
+    price = sq.Column(sq.Numeric)
     date_sale = sq.Column(sq.Date)
     id_stock = sq.Column(sq.ForeignKey('stock.id', ondelete='CASCADE'))
     count = sq.Column(sq.Integer)
+
+
+
+DB_PATH = 'postgresql://postgres:maximus@localhost:5432/Book_shop'
+engine = sq.create_engine(DB_PATH)
+Session = sessionmaker(bind=engine)
+Session.configure(bind=engine)
+Base.metadata.create_all(engine)
+
+
+if __name__ == '__main__':
+    session = Session()
+    all_shops = session.query(Shop).all()
+    print(all_shops)
+
