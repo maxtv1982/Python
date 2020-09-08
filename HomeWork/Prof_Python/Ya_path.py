@@ -38,11 +38,11 @@ class TestSomething(unittest.TestCase):
 
     # тест для создания новой папки
     def test_Yandex_path_OK(self):
-        self.assertEqual(Yandex_path(), True)
+        self.assertTrue(Yandex_path())
 
     # # тест для проверки уже существующей папки
     # def test_Yandex_path_Bad(self):
-    #     self.assertEqual(Yandex_path(), False)
+    #     self.assertFalse(Yandex_path())
 
 if __name__ == '__main__':
     unittest.main()
