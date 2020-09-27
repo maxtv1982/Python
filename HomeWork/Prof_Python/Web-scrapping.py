@@ -12,11 +12,11 @@ soup = BeautifulSoup(ret.text, 'html.parser')
 posts = soup.find_all('article', class_='post')
 for post in posts:
     # извлекаем preview-информацию статьи поста
-    hubs = map(lambda h: h.text.lower(), post.find_all('div', class_='post__body'))
-    for hub in hubs:
-        for xx in KEYWORDS:
+    previews = map(lambda h: h.text.lower(), post.find_all('div', class_='post__body'))
+    for preview in previews:
+        for word in KEYWORDS:
             # ищем вхождение хотя бы одного желаемого слова
-            if re.search(xx, hub):
+            if re.search(word, preview):
                 title_element = post.find('a', class_='post__title_link')
                 print('дата статьи:', post.find('span', class_='post__time').text,
                       '- заголовок:', title_element.text,
