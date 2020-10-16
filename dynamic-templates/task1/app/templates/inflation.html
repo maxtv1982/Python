@@ -1,0 +1,49 @@
+{% load my_filter %}
+
+<!DOCTYPE html>{% load static %}
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Инфляция в России</title>
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  </head>
+
+  <body>
+    {% block content %}
+      <div class="row">
+        <h1 class="col s12" >Инфляция в России</h1>
+        <div class="col s12 m8">
+        <table style="border: 1px solid black"}>
+           <tr> {% for cell in head %}
+                <td style="border: 1px solid black; text-align:center"> <b> {{cell}} </b> </td>
+                {% endfor %}
+           </tr>
+           {% for line in data %}
+           <tr>
+               <td style="border: 1px solid black; text-align:center"> {{ year|cut_list }} </td>
+               {% for cell in line %}
+
+                  <td style="background-color:{{cell|choose_color}}; border:1px solid black; text-align:center">
+                  {% if cell %}
+                      {{cell}}
+                  {% else %}
+                        -
+                  {% endif %}
+                  </td>
+               {% endfor %}
+               <td style="background-color: grey; border: 1px solid black; text-align:center"> {{ total|cut_list }} </td>
+           </tr>
+            {% endfor %}
+        </table>
+        </div>
+      </div>
+    {% endblock %}
+
+  </body>
+</html>
