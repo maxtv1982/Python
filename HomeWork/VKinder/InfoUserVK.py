@@ -11,13 +11,16 @@ with open(os.path.join("..", "..", "..", "key.txt")) as f:
 vk_session = vk_api.VkApi(token=token)
 vk = vk_session.get_api()
 
+
 class UserVK:
+    """ сбор ифнормации из vk api по определённым параметрам"""
 
     def __init__(self, user_id):
         self.user_id = user_id
 
     def info_user(self):
-        info = {}
+        """получаем необходимую информацию о пользователе по его id """
+        info = {}  # словарь с данными
         response = vk.users.get(user_id=self.user_id, fields='bdate, city, relation, sex')
         info['vk_id'] = response[0]['id']
         info['first_name'] = response[0]['first_name']
@@ -26,13 +29,14 @@ class UserVK:
         regex = re.compile(r'(\d+)\.(\d+)\.(\d{4})')
         text = response[0]['bdate']
         info['age'] = int(((datetime.now() - datetime(int(regex.sub(r'\3', text)), int(regex.sub(r'\2', text)),
-                                                 int(regex.sub(r'\1', text)))).days)/365)
+                                                      int(regex.sub(r'\1', text)))).days) / 365)
         info['city'] = response[0]['city']['title']
         return info
 
     def get_photo(self):
+        """ получаем ссылку на 3 популярных фотографии с аватара пользователя по его id """
         response = vk.photos.get(owner_id=self.user_id, album_id='profile', extended=1, photo_sizes=1)
-        photo_list = []
+        photo_list = []  # список 3-х словарей {'likes':колличество, 'photo': ссылка}
         for photo in response['items']:
             download_photo = ''
             type_size = 'a'
@@ -47,10 +51,18 @@ class UserVK:
         photos_for_user = photo_list[0:3]
         return photos_for_user
 
-    def dating_users(self):
-        response = vk.users.search(city=2, has_photo=1, relation=1, status=1, sex=1, age_from=20, age_to=21)
-        return response
+    def dating_users(self, search_info):
+        """ по заданным параметрам ищем пользователей и возвращаем список их id"""
+        id_persons = []
+        response = vk.users.search(count=5, hometown=search_info['hometown'], has_photo=1,
+                                   status=search_info['status'], sex=search_info['sex'],
+                                   age_from=search_info['age_from'], age_to=search_info['age_to'])
+        for person in response['items']:
+            id_persons.append(person['id'])
+        return id_persons
+
 
 id = 692651
 User = UserVK(id)
-pprint(User.dating_users()['items'])
+inform = {'hometown': 'Москва', 'status': 1, 'sex': 1, 'age_from': 20, 'age_to':21}
+pprint(User.dating_users(inform))
