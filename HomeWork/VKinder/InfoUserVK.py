@@ -54,15 +54,16 @@ class UserVK:
     def dating_users(self, search_info):
         """ по заданным параметрам ищем пользователей и возвращаем список их id"""
         id_persons = []
-        response = vk.users.search(count=5, hometown=search_info['hometown'], has_photo=1,
+        response = vk.users.search(hometown=search_info['hometown'], has_photo=1,
                                    status=search_info['status'], sex=search_info['sex'],
                                    age_from=search_info['age_from'], age_to=search_info['age_to'])
         for person in response['items']:
-            id_persons.append(person['id'])
+            if not vk.users.get(user_id=person['id'], fields='is_closed')[0]['is_closed']:
+                id_persons.append(person['id'])
         return id_persons
 
 
-id = 692651
-User = UserVK(id)
-inform = {'hometown': 'Москва', 'status': 1, 'sex': 1, 'age_from': 20, 'age_to':21}
-pprint(User.dating_users(inform))
+# id = 692651
+# User = UserVK(id)
+# inform = {'hometown': 'Москва', 'status': 1, 'sex': 1, 'age_from': 20, 'age_to':21}
+# pprint(User.dating_users(inform))
