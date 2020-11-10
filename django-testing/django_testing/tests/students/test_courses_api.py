@@ -29,23 +29,25 @@ def test_second(api_client, course_factory):
 @pytest.mark.django_db
 def test_third(api_client, course_factory):
     """ проверка фильтрации списка курсов по id """
-    course = course_factory(id=3)
-    url = reverse("courses-detail", args=[3, ])
-    resp = api_client.get(url)
+    course3 = course_factory(id=3)
+    course5 = course_factory(id=5)
+    url = reverse("courses-list")
+    resp = api_client.get(url, {'id': [3, 5]})
     assert resp.status_code == status.HTTP_200_OK
     resp_json = resp.json()
-    assert resp_json["id"] == 3
+    assert resp_json[0]["id"] == 3
+    assert resp_json[1]["id"] == 5
 
 
 @pytest.mark.django_db
 def test_fourth(api_client, course_factory):
     """ проверка фильтрации списка курсов по name """
     course = course_factory(name='Nick')
-    url = reverse("courses-detail", args=[course.id, ])
-    resp = api_client.get(url)
+    url = reverse("courses-list")
+    resp = api_client.get(url, {'name': 'Nick'})
     assert resp.status_code == status.HTTP_200_OK
     resp_json = resp.json()
-    assert resp_json["name"] == 'Nick'
+    assert resp_json[0]["name"] == 'Nick'
 
 
 @pytest.mark.django_db
