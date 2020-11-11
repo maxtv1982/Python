@@ -1,7 +1,6 @@
 import pytest
 from rest_framework.reverse import reverse
 from rest_framework import status
-from students.models import Student, Course
 
 
 @pytest.mark.django_db
@@ -32,31 +31,42 @@ def test_third(api_client, course_factory):
     course3 = course_factory(id=3)
     course5 = course_factory(id=5)
     url = reverse("courses-list")
-    resp = api_client.get(url, {'id': [3, 5]})
+    resp = api_client.get(url, {'id': 3})
     assert resp.status_code == status.HTTP_200_OK
     resp_json = resp.json()
+    assert len(resp_json) == 1
     assert resp_json[0]["id"] == 3
-    assert resp_json[1]["id"] == 5
+    resp = api_client.get(url, {'id': 5})
+    assert resp.status_code == status.HTTP_200_OK
+    resp_json = resp.json()
+    assert len(resp_json) == 1
+    assert resp_json[0]["id"] == 5
 
 
 @pytest.mark.django_db
 def test_fourth(api_client, course_factory):
     """ проверка фильтрации списка курсов по name """
-    course = course_factory(name='Nick')
+    course1 = course_factory(name='physics')
+    course2 = course_factory(name='chemistry')
     url = reverse("courses-list")
-    resp = api_client.get(url, {'name': 'Nick'})
+    resp = api_client.get(url, {'name': 'physics'})
     assert resp.status_code == status.HTTP_200_OK
     resp_json = resp.json()
-    assert resp_json[0]["name"] == 'Nick'
+    assert len(resp_json) == 1
+    assert resp_json[0]["name"] == 'physics'
 
 
 @pytest.mark.django_db
 def test_fifth(api_client):
     """ тест успешного создания курса """
-    course = {'name': 'Nick'}
+    course = {'name': 'chemistry'}
     url = reverse("courses-list")
     resp = api_client.post(url, course)
     assert resp.status_code == status.HTTP_201_CREATED
+    resp = api_client.get(url)
+    resp_json = resp.json()
+    assert len(resp_json) == 1
+    assert resp_json[0]["name"] == 'chemistry'
 
 
 @pytest.mark.django_db
@@ -64,10 +74,12 @@ def test_sixth(api_client, course_factory):
     """ тест успешного обновления курса """
     course = course_factory()
     url = reverse("courses-detail", args=[course.id, ])
-    new_course = {'name': 'Nick'}
+    new_course = {'name': 'chemistry'}
     resp = api_client.put(url, new_course)
     assert resp.status_code == status.HTTP_200_OK
-
+    resp = api_client.get(url)
+    resp_json = resp.json()
+    assert resp_json["name"] == 'chemistry'
 
 
 @pytest.mark.django_db
