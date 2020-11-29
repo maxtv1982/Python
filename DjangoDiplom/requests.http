@@ -1,0 +1,149 @@
+####
+# все товары
+GET http://127.0.0.1:8000/api/v1/products/
+content-type: application/json
+####
+
+# товары определённой ценовой категории
+GET http://127.0.0.1:8000/api/v1/products/?price__lte=15000&price__gte=11000     
+content-type: application/json
+####
+
+# сортировка товаров по цене
+GET http://127.0.0.1:8000/api/v1/products/?ordering=price  
+content-type: application/json
+####
+
+# поиск по содержимому из названия
+GET http://127.0.0.1:8000/api/v1/products/?title=утюг  
+content-type: application/json
+####
+
+# поиск по содержимому из описания
+GET http://127.0.0.1:8000/api/v1/products/?description=Телевизор  
+content-type: application/json
+####
+
+# поиск по содержимому из описания
+POST http://127.0.0.1:8000/api/v1/products/  
+content-type: application/json
+Authorization: Token 98bdde14b644bd3f40221dd5fd467709a64909af
+
+{
+  "title": "Старый Утюг",
+  "description": "рабочий утюг",
+  "price": "500.00"
+}
+####
+
+
+# запрос отзывов
+GET http://127.0.0.1:8000/api/v1/product-reviews/ 
+content-type: application/json
+####
+
+# запрос отзывов с сортировкой по ID пользователя 
+#(аналогично по created_at и product)
+GET http://127.0.0.1:8000/api/v1/product-reviews/?ordering=customer  
+content-type: application/json
+Authorization: Token b16cfbf1239a026412b8613df3df84a9026d80c7
+####
+
+# поиск отзывов по ID пользователя 
+#(аналогично по product)
+GET http://127.0.0.1:8000/api/v1/product-reviews/?customer=2  
+content-type: application/json
+Authorization: Token b16cfbf1239a026412b8613df3df84a9026d80c7
+####
+
+# поиск отзывов по created_at
+GET http://127.0.0.1:8000/api/v1/product-reviews/?created_at_after=2020-11-19
+content-type: application/json
+Authorization: Token b16cfbf1239a026412b8613df3df84a9026d80c7
+####
+
+# написать отзыв
+POST http://127.0.0.1:8000/api/v1/product-reviews/
+content-type: application/json
+Authorization: Token 314ee0bc419a3177b77a514d78191408fb94c59d
+
+{
+  "product": 5,
+  "review": "дёшево и сердито",
+  "score": 2
+ }
+####
+
+# удалить отзыв
+DELETE http://127.0.0.1:8000/api/v1/product-reviews/21/
+content-type: application/json
+Authorization: Token 314ee0bc419a3177b77a514d78191408fb94c59d
+####
+
+# изменить
+PATCH http://127.0.0.1:8000/api/v1/product-reviews/19/
+content-type: application/json
+Authorization: Token 314ee0bc419a3177b77a514d78191408fb94c59d
+
+{
+  "product": 4,
+  "review": "плохой",
+  "score": 1
+ }
+####
+
+
+# просмотр заказов
+GET http://127.0.0.1:8000/api/v1/orders/
+content-type: application/json
+Authorization: Token 98bdde14b644bd3f40221dd5fd467709a64909af
+####
+
+# поиск заказ по продукту
+GET http://127.0.0.1:8000/api/v1/orders/?find_product=телевизор
+content-type: application/json
+Authorization: Token 314ee0bc419a3177b77a514d78191408fb94c59d
+####
+
+# оформление заказа
+POST http://127.0.0.1:8000/api/v1/orders/
+content-type: application/json
+Authorization: Token 314ee0bc419a3177b77a514d78191408fb94c59d
+
+{
+  "customer": 3,
+  "product_positions":
+  [ 
+  { 
+    "product_id": 2 , 
+    "amount": 2 
+  },
+  { 
+    "product_id": 1 , 
+    "amount": 1
+  }
+  ]
+}
+####
+
+# оформление заказа
+POST http://127.0.0.1:8000/api/v1/orders/
+content-type: application/json
+Authorization: Token 314ee0bc419a3177b77a514d78191408fb94c59d
+
+{
+  "customer": 3,
+  "product_positions":
+  [
+
+  ]
+}
+####
+
+
+
+
+# запрос подборок
+GET http://127.0.0.1:8000/api/v1/product-collections/
+content-type: application/json
+####

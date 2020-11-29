@@ -23,7 +23,8 @@ class ProductReviewFilter(filters.FilterSet):
 class OrderFilter(filters.FilterSet):
     created_at_after = filters.DateFilter(field_name="created_at", lookup_expr='gte')
     created_at_before = filters.DateFilter(field_name="created_at", lookup_expr='lte')
+    find_product = filters.CharFilter(field_name='product_positions__product__title', lookup_expr='icontains')
 
     class Meta:
-        model = ProductReview
-        fields = ('customer', 'created_at', 'product', )
+        model = Order
+        fields = ('customer', 'created_at', )

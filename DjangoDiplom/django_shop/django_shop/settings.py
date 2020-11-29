@@ -38,9 +38,22 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'django_filters',
+    'rest_framework.authtoken',
 
     'shop'
 ]
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler', }, },
+    'loggers': {
+        'django.db': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False, }, }, }
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -71,8 +84,8 @@ TEMPLATES = [
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
-    'DEFAULT_AUTHENTICATION_CLASSES': ('rest_framework.authentication.TokenAuthentication',),
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend', ],
+    'DEFAULT_AUTHENTICATION_CLASSES': ['rest_framework.authentication.TokenAuthentication', ],
 }
 
 WSGI_APPLICATION = 'django_shop.wsgi.application'
