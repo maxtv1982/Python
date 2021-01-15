@@ -1,4 +1,34 @@
+
+# регистрация пользователя
+POST http://127.0.0.1:8000/auth/users/  
+content-type: application/json
+
+{
+    "email": "test1@mail.ru",
+    "username": "test1",
+    "password": "test1test1"
+}
 ####
+
+# получение токена
+POST http://127.0.0.1:8000/auth-token/token/login/  
+content-type: application/json
+
+{
+    "username": "test1",
+    "password": "test1test1"
+}
+####
+
+# удаление токена
+POST http://127.0.0.1:8000/auth-token/token/logout/  
+content-type: application/json
+Authorization: Token 11b6bfbb1486af2deb1a4296ee730fe2f7885612
+
+####
+
+
+
 # все товары
 GET http://127.0.0.1:8000/api/v1/products/
 content-type: application/json
@@ -31,8 +61,8 @@ Authorization: Token 98bdde14b644bd3f40221dd5fd467709a64909af
 
 {
   "title": "Старый Утюг",
-  "description": "рабочий утюг",
-  "price": "500.00"
+  "description": "шкаф б.у.",
+  "price": "700.00"
 }
 ####
 
@@ -46,7 +76,7 @@ content-type: application/json
 #(аналогично по created_at и product)
 GET http://127.0.0.1:8000/api/v1/product-reviews/?ordering=customer  
 content-type: application/json
-Authorization: Token b16cfbf1239a026412b8613df3df84a9026d80c7
+Authorization: Token 11b6bfbb1486af2deb1a4296ee730fe2f7885612
 ####
 
 # поиск отзывов по ID пользователя 

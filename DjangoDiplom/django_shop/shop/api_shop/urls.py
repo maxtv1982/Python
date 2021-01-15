@@ -9,4 +9,3 @@ router.register("product-collections", ProductsCollectionViewSet, basename="prod
 
 
 urlpatterns = [] + router.urls
-

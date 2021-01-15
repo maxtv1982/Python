@@ -1,0 +1,1674 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 12.3
+-- Dumped by pg_dump version 12.3
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: auth_group; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.auth_group (
+    id integer NOT NULL,
+    name character varying(150) NOT NULL
+);
+
+
+ALTER TABLE public.auth_group OWNER TO postgres;
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.auth_group_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.auth_group_id_seq OWNED BY public.auth_group.id;
+
+
+--
+-- Name: auth_group_permissions; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.auth_group_permissions (
+    id integer NOT NULL,
+    group_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_group_permissions OWNER TO postgres;
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.auth_group_permissions_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_group_permissions_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.auth_group_permissions_id_seq OWNED BY public.auth_group_permissions.id;
+
+
+--
+-- Name: auth_permission; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.auth_permission (
+    id integer NOT NULL,
+    name character varying(255) NOT NULL,
+    content_type_id integer NOT NULL,
+    codename character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.auth_permission OWNER TO postgres;
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.auth_permission_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_permission_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.auth_permission_id_seq OWNED BY public.auth_permission.id;
+
+
+--
+-- Name: auth_user; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.auth_user (
+    id integer NOT NULL,
+    password character varying(128) NOT NULL,
+    last_login timestamp with time zone,
+    is_superuser boolean NOT NULL,
+    username character varying(150) NOT NULL,
+    first_name character varying(150) NOT NULL,
+    last_name character varying(150) NOT NULL,
+    email character varying(254) NOT NULL,
+    is_staff boolean NOT NULL,
+    is_active boolean NOT NULL,
+    date_joined timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.auth_user OWNER TO postgres;
+
+--
+-- Name: auth_user_groups; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.auth_user_groups (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    group_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_user_groups OWNER TO postgres;
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.auth_user_groups_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_groups_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.auth_user_groups_id_seq OWNED BY public.auth_user_groups.id;
+
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.auth_user_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.auth_user_id_seq OWNED BY public.auth_user.id;
+
+
+--
+-- Name: auth_user_user_permissions; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.auth_user_user_permissions (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    permission_id integer NOT NULL
+);
+
+
+ALTER TABLE public.auth_user_user_permissions OWNER TO postgres;
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.auth_user_user_permissions_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.auth_user_user_permissions_id_seq OWNER TO postgres;
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.auth_user_user_permissions_id_seq OWNED BY public.auth_user_user_permissions.id;
+
+
+--
+-- Name: authtoken_token; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.authtoken_token (
+    key character varying(40) NOT NULL,
+    created timestamp with time zone NOT NULL,
+    user_id integer NOT NULL
+);
+
+
+ALTER TABLE public.authtoken_token OWNER TO postgres;
+
+--
+-- Name: django_admin_log; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.django_admin_log (
+    id integer NOT NULL,
+    action_time timestamp with time zone NOT NULL,
+    object_id text,
+    object_repr character varying(200) NOT NULL,
+    action_flag smallint NOT NULL,
+    change_message text NOT NULL,
+    content_type_id integer,
+    user_id integer NOT NULL,
+    CONSTRAINT django_admin_log_action_flag_check CHECK ((action_flag >= 0))
+);
+
+
+ALTER TABLE public.django_admin_log OWNER TO postgres;
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.django_admin_log_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_admin_log_id_seq OWNER TO postgres;
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.django_admin_log_id_seq OWNED BY public.django_admin_log.id;
+
+
+--
+-- Name: django_content_type; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.django_content_type (
+    id integer NOT NULL,
+    app_label character varying(100) NOT NULL,
+    model character varying(100) NOT NULL
+);
+
+
+ALTER TABLE public.django_content_type OWNER TO postgres;
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.django_content_type_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_content_type_id_seq OWNER TO postgres;
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.django_content_type_id_seq OWNED BY public.django_content_type.id;
+
+
+--
+-- Name: django_migrations; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.django_migrations (
+    id integer NOT NULL,
+    app character varying(255) NOT NULL,
+    name character varying(255) NOT NULL,
+    applied timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_migrations OWNER TO postgres;
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.django_migrations_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.django_migrations_id_seq OWNER TO postgres;
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.django_migrations_id_seq OWNED BY public.django_migrations.id;
+
+
+--
+-- Name: django_session; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.django_session (
+    session_key character varying(40) NOT NULL,
+    session_data text NOT NULL,
+    expire_date timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.django_session OWNER TO postgres;
+
+--
+-- Name: shop_order; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.shop_order (
+    id integer NOT NULL,
+    status text NOT NULL,
+    final_price numeric(9,2) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    customer_id integer NOT NULL
+);
+
+
+ALTER TABLE public.shop_order OWNER TO postgres;
+
+--
+-- Name: shop_order_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.shop_order_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.shop_order_id_seq OWNER TO postgres;
+
+--
+-- Name: shop_order_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.shop_order_id_seq OWNED BY public.shop_order.id;
+
+
+--
+-- Name: shop_product; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.shop_product (
+    id integer NOT NULL,
+    title character varying(50) NOT NULL,
+    description text NOT NULL,
+    price numeric(9,2) NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.shop_product OWNER TO postgres;
+
+--
+-- Name: shop_product_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.shop_product_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.shop_product_id_seq OWNER TO postgres;
+
+--
+-- Name: shop_product_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.shop_product_id_seq OWNED BY public.shop_product.id;
+
+
+--
+-- Name: shop_productscollection; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.shop_productscollection (
+    id integer NOT NULL,
+    header character varying(50) NOT NULL,
+    content text,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL
+);
+
+
+ALTER TABLE public.shop_productscollection OWNER TO postgres;
+
+--
+-- Name: shop_productcollection_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.shop_productcollection_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.shop_productcollection_id_seq OWNER TO postgres;
+
+--
+-- Name: shop_productcollection_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.shop_productcollection_id_seq OWNED BY public.shop_productscollection.id;
+
+
+--
+-- Name: shop_productreview; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.shop_productreview (
+    id integer NOT NULL,
+    review text NOT NULL,
+    score smallint NOT NULL,
+    created_at timestamp with time zone NOT NULL,
+    updated_at timestamp with time zone NOT NULL,
+    product_id integer NOT NULL,
+    customer_id integer NOT NULL,
+    CONSTRAINT shop_productreview_score_b25bbd82_check CHECK ((score >= 0))
+);
+
+
+ALTER TABLE public.shop_productreview OWNER TO postgres;
+
+--
+-- Name: shop_productreview_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.shop_productreview_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.shop_productreview_id_seq OWNER TO postgres;
+
+--
+-- Name: shop_productreview_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.shop_productreview_id_seq OWNED BY public.shop_productreview.id;
+
+
+--
+-- Name: shop_productscollection_products; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.shop_productscollection_products (
+    id integer NOT NULL,
+    productscollection_id integer NOT NULL,
+    product_id integer NOT NULL
+);
+
+
+ALTER TABLE public.shop_productscollection_products OWNER TO postgres;
+
+--
+-- Name: shop_productscollection_products_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.shop_productscollection_products_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.shop_productscollection_products_id_seq OWNER TO postgres;
+
+--
+-- Name: shop_productscollection_products_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.shop_productscollection_products_id_seq OWNED BY public.shop_productscollection_products.id;
+
+
+--
+-- Name: shop_productsfororder; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.shop_productsfororder (
+    id integer NOT NULL,
+    amount integer NOT NULL,
+    order_id integer NOT NULL,
+    product_id integer NOT NULL,
+    sum_price numeric(9,2) NOT NULL,
+    CONSTRAINT shop_productsfororder_amount_check CHECK ((amount >= 0))
+);
+
+
+ALTER TABLE public.shop_productsfororder OWNER TO postgres;
+
+--
+-- Name: shop_productsfororder_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.shop_productsfororder_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.shop_productsfororder_id_seq OWNER TO postgres;
+
+--
+-- Name: shop_productsfororder_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.shop_productsfororder_id_seq OWNED BY public.shop_productsfororder.id;
+
+
+--
+-- Name: auth_group id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group ALTER COLUMN id SET DEFAULT nextval('public.auth_group_id_seq'::regclass);
+
+
+--
+-- Name: auth_group_permissions id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group_permissions ALTER COLUMN id SET DEFAULT nextval('public.auth_group_permissions_id_seq'::regclass);
+
+
+--
+-- Name: auth_permission id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_permission ALTER COLUMN id SET DEFAULT nextval('public.auth_permission_id_seq'::regclass);
+
+
+--
+-- Name: auth_user id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user ALTER COLUMN id SET DEFAULT nextval('public.auth_user_id_seq'::regclass);
+
+
+--
+-- Name: auth_user_groups id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_groups ALTER COLUMN id SET DEFAULT nextval('public.auth_user_groups_id_seq'::regclass);
+
+
+--
+-- Name: auth_user_user_permissions id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions ALTER COLUMN id SET DEFAULT nextval('public.auth_user_user_permissions_id_seq'::regclass);
+
+
+--
+-- Name: django_admin_log id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_admin_log ALTER COLUMN id SET DEFAULT nextval('public.django_admin_log_id_seq'::regclass);
+
+
+--
+-- Name: django_content_type id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_content_type ALTER COLUMN id SET DEFAULT nextval('public.django_content_type_id_seq'::regclass);
+
+
+--
+-- Name: django_migrations id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_migrations ALTER COLUMN id SET DEFAULT nextval('public.django_migrations_id_seq'::regclass);
+
+
+--
+-- Name: shop_order id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shop_order ALTER COLUMN id SET DEFAULT nextval('public.shop_order_id_seq'::regclass);
+
+
+--
+-- Name: shop_product id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shop_product ALTER COLUMN id SET DEFAULT nextval('public.shop_product_id_seq'::regclass);
+
+
+--
+-- Name: shop_productreview id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shop_productreview ALTER COLUMN id SET DEFAULT nextval('public.shop_productreview_id_seq'::regclass);
+
+
+--
+-- Name: shop_productscollection id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shop_productscollection ALTER COLUMN id SET DEFAULT nextval('public.shop_productcollection_id_seq'::regclass);
+
+
+--
+-- Name: shop_productscollection_products id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shop_productscollection_products ALTER COLUMN id SET DEFAULT nextval('public.shop_productscollection_products_id_seq'::regclass);
+
+
+--
+-- Name: shop_productsfororder id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shop_productsfororder ALTER COLUMN id SET DEFAULT nextval('public.shop_productsfororder_id_seq'::regclass);
+
+
+--
+-- Data for Name: auth_group; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.auth_group (id, name) FROM stdin;
+\.
+
+
+--
+-- Data for Name: auth_group_permissions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.auth_group_permissions (id, group_id, permission_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: auth_permission; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.auth_permission (id, name, content_type_id, codename) FROM stdin;
+1	Can add log entry	1	add_logentry
+2	Can change log entry	1	change_logentry
+3	Can delete log entry	1	delete_logentry
+4	Can view log entry	1	view_logentry
+5	Can add permission	2	add_permission
+6	Can change permission	2	change_permission
+7	Can delete permission	2	delete_permission
+8	Can view permission	2	view_permission
+9	Can add group	3	add_group
+10	Can change group	3	change_group
+11	Can delete group	3	delete_group
+12	Can view group	3	view_group
+13	Can add user	4	add_user
+14	Can change user	4	change_user
+15	Can delete user	4	delete_user
+16	Can view user	4	view_user
+17	Can add content type	5	add_contenttype
+18	Can change content type	5	change_contenttype
+19	Can delete content type	5	delete_contenttype
+20	Can view content type	5	view_contenttype
+21	Can add session	6	add_session
+22	Can change session	6	change_session
+23	Can delete session	6	delete_session
+24	Can view session	6	view_session
+25	Can add customer	7	add_customer
+26	Can change customer	7	change_customer
+27	Can delete customer	7	delete_customer
+28	Can view customer	7	view_customer
+29	Can add order	8	add_order
+30	Can change order	8	change_order
+31	Can delete order	8	delete_order
+32	Can view order	8	view_order
+33	Can add product	9	add_product
+34	Can change product	9	change_product
+35	Can delete product	9	delete_product
+36	Can view product	9	view_product
+37	Can add products for order	10	add_productsfororder
+38	Can change products for order	10	change_productsfororder
+39	Can delete products for order	10	delete_productsfororder
+40	Can view products for order	10	view_productsfororder
+41	Can add product review	11	add_productreview
+42	Can change product review	11	change_productreview
+43	Can delete product review	11	delete_productreview
+44	Can view product review	11	view_productreview
+45	Can add products collection	12	add_productscollection
+46	Can change products collection	12	change_productscollection
+47	Can delete products collection	12	delete_productscollection
+48	Can view products collection	12	view_productscollection
+49	Can add Token	13	add_token
+50	Can change Token	13	change_token
+51	Can delete Token	13	delete_token
+52	Can view Token	13	view_token
+53	Can add token	14	add_tokenproxy
+54	Can change token	14	change_tokenproxy
+55	Can delete token	14	delete_tokenproxy
+56	Can view token	14	view_tokenproxy
+\.
+
+
+--
+-- Data for Name: auth_user; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.auth_user (id, password, last_login, is_superuser, username, first_name, last_name, email, is_staff, is_active, date_joined) FROM stdin;
+2	pbkdf2_sha256$216000$MHyRMnsyM36q$wJrXAVGTXIIG6rL9KgtDRU3ebQOqLeCU3wkWOhKCGZg=	\N	f	TestUser	Tester			f	t	2020-11-18 21:48:52+03
+3	pbkdf2_sha256$216000$wFUY3r11s3ZS$egzqjjv0zSPQXIMvYbboxW5jvlE2tAUEyXAQnd4i264=	\N	f	TestUser2	Tester2			f	t	2020-11-19 18:37:28+03
+1	pbkdf2_sha256$216000$k9UBkl4hhcXv$hmGSgFbGDJObPt9zuJnvMQfJdNr3S5ec44jyGe2r+0E=	2020-11-29 20:43:16.412776+03	t	admin			maxtv@mail.ru	t	t	2020-11-15 18:55:00.642885+03
+7	pbkdf2_sha256$216000$bh7CscqywU94$GewPUejR41fYMoTR12/JYSOodzaVlNGgaXH4zf/9oBU=	2020-12-07 20:33:05.520388+03	f	test1			test1@mail.ru	f	t	2020-12-07 20:32:59.334009+03
+\.
+
+
+--
+-- Data for Name: auth_user_groups; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.auth_user_groups (id, user_id, group_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: auth_user_user_permissions; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.auth_user_user_permissions (id, user_id, permission_id) FROM stdin;
+\.
+
+
+--
+-- Data for Name: authtoken_token; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.authtoken_token (key, created, user_id) FROM stdin;
+b16cfbf1239a026412b8613df3df84a9026d80c7	2020-11-28 19:25:05.82554+03	2
+314ee0bc419a3177b77a514d78191408fb94c59d	2020-11-28 19:25:11.401859+03	3
+98bdde14b644bd3f40221dd5fd467709a64909af	2020-11-28 21:22:31.879487+03	1
+\.
+
+
+--
+-- Data for Name: django_admin_log; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.django_admin_log (id, action_time, object_id, object_repr, action_flag, change_message, content_type_id, user_id) FROM stdin;
+1	2020-11-16 21:00:31.176741+03	1	Телевизор	1	[{"added": {}}]	9	1
+2	2020-11-16 21:01:17.896454+03	2	Стиральная машина	1	[{"added": {}}]	9	1
+3	2020-11-16 21:01:44.295533+03	3	Утюг	1	[{"added": {}}]	9	1
+4	2020-11-16 21:02:21.546326+03	4	Холодильник	1	[{"added": {}}]	9	1
+5	2020-11-17 18:22:44.536767+03	5	Посудомойка	1	[{"added": {}}]	9	1
+6	2020-11-17 18:24:36.258831+03	1	техника для кухни	1	[{"added": {}}]	12	1
+7	2020-11-17 18:24:57.554055+03	1	техника для кухни	3		12	1
+8	2020-11-17 19:17:22.477426+03	2	техника для кухни	1	[{"added": {}}, {"added": {"name": "productscollection-product relationship", "object": "ProductsCollection_products object (1)"}}, {"added": {"name": "productscollection-product relationship", "object": "ProductsCollection_products object (2)"}}]	12	1
+9	2020-11-17 22:32:34.63901+03	3	Бытовая техника	1	[{"added": {}}, {"added": {"name": "productscollection-product relationship", "object": "ProductsCollection_products object (3)"}}, {"added": {"name": "productscollection-product relationship", "object": "ProductsCollection_products object (4)"}}, {"added": {"name": "productscollection-product relationship", "object": "ProductsCollection_products object (5)"}}]	12	1
+10	2020-11-17 22:33:03.736001+03	4	Утюги	1	[{"added": {}}, {"added": {"name": "productscollection-product relationship", "object": "ProductsCollection_products object (6)"}}]	12	1
+11	2020-11-18 21:02:57.608276+03	3	Утюг Tefal	2	[{"changed": {"fields": ["\\u041d\\u0430\\u0438\\u043c\\u0435\\u043d\\u043e\\u0432\\u0430\\u043d\\u0438\\u0435"]}}]	9	1
+12	2020-11-18 21:48:53.053385+03	2	TestUser	1	[{"added": {}}]	4	1
+13	2020-11-18 21:49:21.813855+03	2	TestUser	2	[{"changed": {"fields": ["First name"]}}]	4	1
+14	2020-11-18 22:06:01.575266+03	5	Customer object (5)	1	[{"added": {}}]	7	1
+15	2020-11-18 22:54:47.708248+03	1	Телевизор	1	[{"added": {}}]	11	1
+16	2020-11-19 18:37:29.160759+03	3	TestUser2	1	[{"added": {}}]	4	1
+17	2020-11-19 18:37:47.4386+03	3	TestUser2	2	[{"changed": {"fields": ["First name"]}}]	4	1
+18	2020-11-19 18:38:32.520591+03	2	Стиральная машина	1	[{"added": {}}]	11	1
+19	2020-11-21 22:47:10.289356+03	25	25	1	[{"added": {}}, {"added": {"name": "products for order", "object": "ProductsForOrder object (25)"}}]	8	1
+20	2020-11-21 22:47:38.518963+03	25	25	3		8	1
+21	2020-11-21 22:54:12.355156+03	28	заказ № 28 для покупателя TestUser	1	[{"added": {}}, {"added": {"name": "products for order", "object": "ProductsForOrder object (30)"}}, {"added": {"name": "products for order", "object": "ProductsForOrder object (31)"}}]	8	1
+22	2020-11-21 22:54:24.896514+03	28	заказ № 28 для покупателя TestUser	2	[]	8	1
+23	2020-11-21 22:54:57.000023+03	28	заказ № 28 для покупателя TestUser	3		8	1
+24	2020-11-21 23:06:04.273708+03	29	заказ № 29 для покупателя TestUser	1	[{"added": {}}, {"added": {"name": "products for order", "object": "ProductsForOrder object (32)"}}, {"added": {"name": "products for order", "object": "ProductsForOrder object (33)"}}]	8	1
+25	2020-11-21 23:23:44.217277+03	29	заказ № 29 для покупателя TestUser	2	[]	8	1
+26	2020-11-23 20:10:39.100395+03	46	заказ № 46 для покупателя TestUser	3		8	1
+27	2020-11-23 20:11:14.487468+03	45	заказ № 45 для покупателя TestUser	3		8	1
+28	2020-11-23 20:11:14.493468+03	44	заказ № 44 для покупателя TestUser	3		8	1
+29	2020-11-23 20:11:14.496469+03	43	заказ № 43 для покупателя TestUser	3		8	1
+30	2020-11-23 20:11:14.499469+03	40	заказ № 40 для покупателя TestUser	3		8	1
+31	2020-11-23 20:11:14.502469+03	38	заказ № 38 для покупателя TestUser	3		8	1
+32	2020-11-23 20:11:14.505469+03	35	заказ № 35 для покупателя TestUser	3		8	1
+33	2020-11-23 20:11:14.507469+03	31	заказ № 31 для покупателя TestUser	3		8	1
+34	2020-11-23 20:11:14.510469+03	29	заказ № 29 для покупателя TestUser	3		8	1
+35	2020-11-23 20:33:28.302554+03	53	заказ № 53 для покупателя TestUser	3		8	1
+36	2020-11-23 20:59:20.67865+03	58	заказ № 58 для покупателя TestUser	3		8	1
+37	2020-11-23 20:59:20.704652+03	57	заказ № 57 для покупателя TestUser	3		8	1
+38	2020-11-23 20:59:20.710652+03	56	заказ № 56 для покупателя TestUser	3		8	1
+39	2020-11-23 20:59:20.713652+03	55	заказ № 55 для покупателя TestUser	3		8	1
+40	2020-11-23 21:20:52.928035+03	62	заказ № 62 для покупателя TestUser	3		8	1
+41	2020-11-23 21:20:52.956037+03	59	заказ № 59 для покупателя TestUser	3		8	1
+42	2020-11-23 21:40:03.138609+03	63	заказ № 63 для покупателя TestUser	3		8	1
+43	2020-11-23 21:43:39.443139+03	64	заказ № 64 для покупателя TestUser	3		8	1
+44	2020-11-24 23:58:39.835159+03	69	заказ № 69 для покупателя TestUser	1	[{"added": {}}, {"added": {"name": "products for order", "object": "ProductsForOrder object (64)"}}, {"added": {"name": "products for order", "object": "ProductsForOrder object (65)"}}]	8	1
+45	2020-11-28 10:44:13.247138+03	72	заказ № 72 для покупателя TestUser2	3		8	1
+46	2020-11-28 10:44:13.28214+03	71	заказ № 71 для покупателя TestUser2	3		8	1
+47	2020-11-28 10:44:13.28714+03	70	заказ № 70 для покупателя TestUser2	3		8	1
+48	2020-11-28 10:44:13.29014+03	69	заказ № 69 для покупателя TestUser	3		8	1
+49	2020-11-28 10:44:13.29414+03	66	заказ № 66 для покупателя TestUser	3		8	1
+50	2020-11-28 10:44:13.298141+03	65	заказ № 65 для покупателя TestUser	3		8	1
+51	2020-11-28 11:28:30.084103+03	73	заказ № 73 для покупателя TestUser2	3		8	1
+52	2020-11-28 11:29:21.604833+03	85	заказ № 85 для покупателя TestUser2	3		8	1
+53	2020-11-28 11:29:21.613833+03	84	заказ № 84 для покупателя TestUser2	3		8	1
+54	2020-11-28 11:29:21.615834+03	83	заказ № 83 для покупателя TestUser2	3		8	1
+55	2020-11-28 11:29:21.618834+03	82	заказ № 82 для покупателя TestUser2	3		8	1
+56	2020-11-28 19:25:05.83054+03	2	b16cfbf1239a026412b8613df3df84a9026d80c7	1	[{"added": {}}]	14	1
+57	2020-11-28 19:25:11.404859+03	3	314ee0bc419a3177b77a514d78191408fb94c59d	1	[{"added": {}}]	14	1
+58	2020-11-28 20:14:59.2883+03	4	отзыв : Телевизор	3		11	1
+59	2020-11-28 20:15:06.777526+03	3	отзыв : Телевизор	3		11	1
+60	2020-11-28 20:15:31.511039+03	5	отзыв : Телевизор	3		11	1
+61	2020-11-28 20:17:42.346254+03	7	отзыв : Телевизор	3		11	1
+62	2020-11-28 20:17:42.353255+03	6	отзыв : Телевизор	3		11	1
+63	2020-11-28 20:33:34.508569+03	8	отзыв : Телевизор	3		11	1
+64	2020-11-28 20:33:51.48654+03	1	отзыв : Телевизор	3		11	1
+65	2020-11-28 20:42:04.256759+03	12	отзыв : Телевизор	3		11	1
+66	2020-11-28 20:42:04.280761+03	10	отзыв : Телевизор	3		11	1
+67	2020-11-28 21:17:54.932718+03	14	отзыв : Холодильник	1	[{"added": {}}]	11	1
+68	2020-11-28 21:22:31.884487+03	1	98bdde14b644bd3f40221dd5fd467709a64909af	1	[{"added": {}}]	14	1
+69	2020-11-29 17:00:52.126075+03	7	Старый Телевизор	3		9	1
+70	2020-11-29 17:14:40.795802+03	17	отзыв : Телевизор	1	[{"added": {}}]	11	1
+71	2020-11-29 17:14:55.411938+03	18	отзыв : Холодильник	1	[{"added": {}}]	11	1
+72	2020-12-07 19:52:30.357887+03	5	test0	1	[{"added": {}}]	4	1
+73	2020-12-07 20:26:38.753133+03	5	test0	3		4	1
+74	2020-12-07 20:26:38.761133+03	4	test3	3		4	1
+75	2020-12-07 20:26:38.765133+03	6	test5	3		4	1
+76	2020-12-07 20:38:57.525175+03	9	Старый Утюг	3		9	1
+\.
+
+
+--
+-- Data for Name: django_content_type; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.django_content_type (id, app_label, model) FROM stdin;
+1	admin	logentry
+2	auth	permission
+3	auth	group
+4	auth	user
+5	contenttypes	contenttype
+6	sessions	session
+7	shop	customer
+8	shop	order
+9	shop	product
+10	shop	productsfororder
+11	shop	productreview
+12	shop	productscollection
+13	authtoken	token
+14	authtoken	tokenproxy
+\.
+
+
+--
+-- Data for Name: django_migrations; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.django_migrations (id, app, name, applied) FROM stdin;
+1	contenttypes	0001_initial	2020-11-14 16:18:31.596231+03
+2	auth	0001_initial	2020-11-14 16:18:31.707237+03
+3	admin	0001_initial	2020-11-14 16:18:31.860246+03
+4	admin	0002_logentry_remove_auto_add	2020-11-14 16:18:31.893248+03
+5	admin	0003_logentry_add_action_flag_choices	2020-11-14 16:18:31.910249+03
+6	contenttypes	0002_remove_content_type_name	2020-11-14 16:18:31.966252+03
+7	auth	0002_alter_permission_name_max_length	2020-11-14 16:18:31.985253+03
+8	auth	0003_alter_user_email_max_length	2020-11-14 16:18:32.004254+03
+9	auth	0004_alter_user_username_opts	2020-11-14 16:18:32.025255+03
+10	auth	0005_alter_user_last_login_null	2020-11-14 16:18:32.043256+03
+11	auth	0006_require_contenttypes_0002	2020-11-14 16:18:32.048257+03
+12	auth	0007_alter_validators_add_error_messages	2020-11-14 16:18:32.067258+03
+13	auth	0008_alter_user_username_max_length	2020-11-14 16:18:32.124261+03
+14	auth	0009_alter_user_last_name_max_length	2020-11-14 16:18:32.143262+03
+15	auth	0010_alter_group_name_max_length	2020-11-14 16:18:32.164263+03
+16	auth	0011_update_proxy_permissions	2020-11-14 16:18:32.236267+03
+17	auth	0012_alter_user_first_name_max_length	2020-11-14 16:18:32.275269+03
+18	sessions	0001_initial	2020-11-14 16:18:32.293271+03
+19	shop	0001_initial	2020-11-15 18:54:19.209213+03
+20	shop	0002_auto_20201115_1849	2020-11-15 18:54:19.458813+03
+21	shop	0003_auto_20201115_1854	2020-11-15 18:54:19.505613+03
+22	shop	0004_auto_20201115_1900	2020-11-15 19:01:03.947502+03
+23	shop	0005_auto_20201116_1933	2020-11-16 19:33:27.775271+03
+24	shop	0006_auto_20201116_2100	2020-11-16 21:00:17.943663+03
+29	shop	0007_auto_20201117_1916	2020-11-17 19:16:31.773755+03
+30	shop	0008_auto_20201118_2236	2020-11-18 22:36:39.228386+03
+31	shop	0009_remove_productreview_customer	2020-11-18 22:40:39.893533+03
+32	shop	0010_productreview_customer	2020-11-18 22:48:03.971418+03
+33	shop	0011_auto_20201118_2253	2020-11-18 22:53:50.341148+03
+35	shop	0012_productsfororder_sum_price	2020-11-21 22:32:08.943114+03
+36	shop	0013_auto_20201121_2245	2020-11-21 22:45:35.465254+03
+37	shop	0014_auto_20201121_2250	2020-11-21 22:50:48.305831+03
+38	shop	0015_auto_20201121_2252	2020-11-21 22:52:07.80479+03
+39	authtoken	0001_initial	2020-11-28 19:24:23.317152+03
+40	authtoken	0002_auto_20160226_1747	2020-11-28 19:24:23.639171+03
+41	authtoken	0003_tokenproxy	2020-11-28 19:24:23.658172+03
+42	shop	0016_auto_20201129_2053	2020-11-29 20:53:36.922409+03
+\.
+
+
+--
+-- Data for Name: django_session; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.django_session (session_key, session_data, expire_date) FROM stdin;
+8qpc9oj7oxiwbvkqg3gab9131ihbhhru	.eJxVjMsOwiAURP-FtSFcykNcuvcbyPCoVA0kpV0Z_9026UJ3kzln5s081qX4tefZT4ldGLHTbxcQn7nuID1Q743HVpd5CnxX-EE7v7WUX9fD_Tso6GVbR8hMwlkMaqAtQBHSKIQWSlOQNo4RGtFYlaUzkJqcNlmRO6dkAMk-X8q1N1E:1keKNq:dzXzZqjUmla0sXCvC3ByV6NrIa424hD-3rOR6E1205o	2020-11-29 18:56:06.702339+03
+ijgqrqzrfxqg66urx8f5nfnhvdocd10e	.eJxVjMsOwiAURP-FtSFcykNcuvcbyPCoVA0kpV0Z_9026UJ3kzln5s081qX4tefZT4ldGLHTbxcQn7nuID1Q743HVpd5CnxX-EE7v7WUX9fD_Tso6GVbR8hMwlkMaqAtQBHSKIQWSlOQNo4RGtFYlaUzkJqcNlmRO6dkAMk-X8q1N1E:1kjQjE:But63imtqu23UZ2E8Pf-GpXiTYcf2LPEO6zOqISUpeI	2020-12-13 20:43:16.422776+03
+\.
+
+
+--
+-- Data for Name: shop_order; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.shop_order (id, status, final_price, created_at, updated_at, customer_id) FROM stdin;
+92	New	50000.00	2020-11-29 20:32:05.529382+03	2020-11-29 20:32:05.529382+03	3
+87	New	60000.00	2020-11-28 11:29:38.790359+03	2020-11-28 11:29:38.790359+03	2
+88	New	26001.00	2020-11-28 11:30:32.880947+03	2020-11-28 11:30:32.880947+03	3
+89	New	19001.70	2020-11-29 17:44:19.348366+03	2020-11-29 17:44:19.348366+03	3
+90	New	60000.00	2020-11-29 20:26:29.889824+03	2020-11-29 20:26:29.889824+03	3
+91	New	50000.00	2020-11-29 20:29:06.535838+03	2020-11-29 20:29:06.535838+03	3
+\.
+
+
+--
+-- Data for Name: shop_product; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.shop_product (id, title, description, price, created_at, updated_at) FROM stdin;
+1	Телевизор	Новый телевизор	10000.00	2020-11-16 21:00:31.162741+03	2020-11-16 21:00:31.162741+03
+2	Стиральная машина	новая Стиральная машина	20000.00	2020-11-16 21:01:17.891454+03	2020-11-16 21:01:17.891454+03
+4	Холодильник	новый холодильник	13000.70	2020-11-16 21:02:21.541326+03	2020-11-16 21:02:21.541326+03
+5	Посудомойка	новая посудомойка	16500.00	2020-11-17 18:22:44.513766+03	2020-11-17 18:22:44.513766+03
+3	Утюг Tefal	новый утюг	3000.50	2020-11-16 21:01:44.292533+03	2020-11-18 21:02:57.592275+03
+6	Старый Телевизор	рабочий телевизор	1000.00	2020-11-29 16:59:47.318162+03	2020-11-29 16:59:47.318162+03
+8	Старый Утюг	рабочий утюг	500.00	2020-11-29 17:04:18.448509+03	2020-11-29 17:04:18.448509+03
+\.
+
+
+--
+-- Data for Name: shop_productreview; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.shop_productreview (id, review, score, created_at, updated_at, product_id, customer_id) FROM stdin;
+17	Хороший телевизор	4	2020-11-29 17:14:40.792801+03	2020-11-29 17:14:40.793802+03	1	2
+22	дёшево и сердито	2	2020-11-29 20:44:21.480043+03	2020-11-29 20:44:21.480043+03	5	3
+\.
+
+
+--
+-- Data for Name: shop_productscollection; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.shop_productscollection (id, header, content, created_at, updated_at) FROM stdin;
+2	техника для кухни	Лучшая техника для кухни	2020-11-17 19:17:22.457424+03	2020-11-17 19:17:22.457424+03
+3	Бытовая техника	Лучшая техника для дома	2020-11-17 22:32:34.604008+03	2020-11-17 22:32:34.604008+03
+4	Утюги	Лучшие утюги	2020-11-17 22:33:03.716+03	2020-11-17 22:33:03.716+03
+\.
+
+
+--
+-- Data for Name: shop_productscollection_products; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.shop_productscollection_products (id, productscollection_id, product_id) FROM stdin;
+1	2	4
+2	2	5
+3	3	1
+4	3	2
+5	3	4
+6	4	3
+\.
+
+
+--
+-- Data for Name: shop_productsfororder; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.shop_productsfororder (id, amount, order_id, product_id, sum_price) FROM stdin;
+96	3	87	1	30000.00
+97	7	87	2	140000.00
+100	2	89	3	6001.00
+101	1	89	4	13000.70
+102	2	90	2	40000.00
+103	1	90	2	20000.00
+104	2	91	2	40000.00
+105	1	91	1	10000.00
+106	2	92	2	40000.00
+107	1	92	1	10000.00
+98	2	88	1	20000.00
+99	2	88	3	6001.00
+\.
+
+
+--
+-- Name: auth_group_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.auth_group_id_seq', 1, false);
+
+
+--
+-- Name: auth_group_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.auth_group_permissions_id_seq', 1, false);
+
+
+--
+-- Name: auth_permission_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.auth_permission_id_seq', 56, true);
+
+
+--
+-- Name: auth_user_groups_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.auth_user_groups_id_seq', 1, false);
+
+
+--
+-- Name: auth_user_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.auth_user_id_seq', 7, true);
+
+
+--
+-- Name: auth_user_user_permissions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.auth_user_user_permissions_id_seq', 1, false);
+
+
+--
+-- Name: django_admin_log_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.django_admin_log_id_seq', 76, true);
+
+
+--
+-- Name: django_content_type_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.django_content_type_id_seq', 14, true);
+
+
+--
+-- Name: django_migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.django_migrations_id_seq', 42, true);
+
+
+--
+-- Name: shop_order_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.shop_order_id_seq', 92, true);
+
+
+--
+-- Name: shop_product_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.shop_product_id_seq', 9, true);
+
+
+--
+-- Name: shop_productcollection_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.shop_productcollection_id_seq', 4, true);
+
+
+--
+-- Name: shop_productreview_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.shop_productreview_id_seq', 22, true);
+
+
+--
+-- Name: shop_productscollection_products_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.shop_productscollection_products_id_seq', 6, true);
+
+
+--
+-- Name: shop_productsfororder_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.shop_productsfororder_id_seq', 107, true);
+
+
+--
+-- Name: auth_group auth_group_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group
+    ADD CONSTRAINT auth_group_name_key UNIQUE (name);
+
+
+--
+-- Name: auth_group_permissions auth_group_permissions_group_id_permission_id_0cd325b0_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_permission_id_0cd325b0_uniq UNIQUE (group_id, permission_id);
+
+
+--
+-- Name: auth_group_permissions auth_group_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_group auth_group_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group
+    ADD CONSTRAINT auth_group_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_permission auth_permission_content_type_id_codename_01ab375a_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_codename_01ab375a_uniq UNIQUE (content_type_id, codename);
+
+
+--
+-- Name: auth_permission auth_permission_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_groups auth_user_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_groups auth_user_groups_user_id_group_id_94350c0c_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_user_id_group_id_94350c0c_uniq UNIQUE (user_id, group_id);
+
+
+--
+-- Name: auth_user auth_user_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user
+    ADD CONSTRAINT auth_user_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_user_permissions auth_user_user_permissions_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_user_user_permissions auth_user_user_permissions_user_id_permission_id_14a6b632_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_user_id_permission_id_14a6b632_uniq UNIQUE (user_id, permission_id);
+
+
+--
+-- Name: auth_user auth_user_username_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user
+    ADD CONSTRAINT auth_user_username_key UNIQUE (username);
+
+
+--
+-- Name: authtoken_token authtoken_token_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.authtoken_token
+    ADD CONSTRAINT authtoken_token_pkey PRIMARY KEY (key);
+
+
+--
+-- Name: authtoken_token authtoken_token_user_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.authtoken_token
+    ADD CONSTRAINT authtoken_token_user_id_key UNIQUE (user_id);
+
+
+--
+-- Name: django_admin_log django_admin_log_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_content_type django_content_type_app_label_model_76bd3d3b_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_content_type
+    ADD CONSTRAINT django_content_type_app_label_model_76bd3d3b_uniq UNIQUE (app_label, model);
+
+
+--
+-- Name: django_content_type django_content_type_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_content_type
+    ADD CONSTRAINT django_content_type_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_migrations django_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_migrations
+    ADD CONSTRAINT django_migrations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: django_session django_session_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_session
+    ADD CONSTRAINT django_session_pkey PRIMARY KEY (session_key);
+
+
+--
+-- Name: shop_order shop_order_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shop_order
+    ADD CONSTRAINT shop_order_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: shop_product shop_product_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shop_product
+    ADD CONSTRAINT shop_product_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: shop_productscollection shop_productcollection_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shop_productscollection
+    ADD CONSTRAINT shop_productcollection_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: shop_productreview shop_productreview_customer_id_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shop_productreview
+    ADD CONSTRAINT shop_productreview_customer_id_key UNIQUE (customer_id);
+
+
+--
+-- Name: shop_productreview shop_productreview_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shop_productreview
+    ADD CONSTRAINT shop_productreview_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: shop_productscollection_products shop_productscollection__productscollection_id_pr_c00c6352_uniq; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shop_productscollection_products
+    ADD CONSTRAINT shop_productscollection__productscollection_id_pr_c00c6352_uniq UNIQUE (productscollection_id, product_id);
+
+
+--
+-- Name: shop_productscollection_products shop_productscollection_products_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shop_productscollection_products
+    ADD CONSTRAINT shop_productscollection_products_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: shop_productsfororder shop_productsfororder_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shop_productsfororder
+    ADD CONSTRAINT shop_productsfororder_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: auth_group_name_a6ea08ec_like; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_group_name_a6ea08ec_like ON public.auth_group USING btree (name varchar_pattern_ops);
+
+
+--
+-- Name: auth_group_permissions_group_id_b120cbf9; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_group_permissions_group_id_b120cbf9 ON public.auth_group_permissions USING btree (group_id);
+
+
+--
+-- Name: auth_group_permissions_permission_id_84c5c92e; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_group_permissions_permission_id_84c5c92e ON public.auth_group_permissions USING btree (permission_id);
+
+
+--
+-- Name: auth_permission_content_type_id_2f476e4b; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_permission_content_type_id_2f476e4b ON public.auth_permission USING btree (content_type_id);
+
+
+--
+-- Name: auth_user_groups_group_id_97559544; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_user_groups_group_id_97559544 ON public.auth_user_groups USING btree (group_id);
+
+
+--
+-- Name: auth_user_groups_user_id_6a12ed8b; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_user_groups_user_id_6a12ed8b ON public.auth_user_groups USING btree (user_id);
+
+
+--
+-- Name: auth_user_user_permissions_permission_id_1fbb5f2c; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_user_user_permissions_permission_id_1fbb5f2c ON public.auth_user_user_permissions USING btree (permission_id);
+
+
+--
+-- Name: auth_user_user_permissions_user_id_a95ead1b; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_user_user_permissions_user_id_a95ead1b ON public.auth_user_user_permissions USING btree (user_id);
+
+
+--
+-- Name: auth_user_username_6821ab7c_like; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX auth_user_username_6821ab7c_like ON public.auth_user USING btree (username varchar_pattern_ops);
+
+
+--
+-- Name: authtoken_token_key_10f0b77e_like; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX authtoken_token_key_10f0b77e_like ON public.authtoken_token USING btree (key varchar_pattern_ops);
+
+
+--
+-- Name: django_admin_log_content_type_id_c4bce8eb; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX django_admin_log_content_type_id_c4bce8eb ON public.django_admin_log USING btree (content_type_id);
+
+
+--
+-- Name: django_admin_log_user_id_c564eba6; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX django_admin_log_user_id_c564eba6 ON public.django_admin_log USING btree (user_id);
+
+
+--
+-- Name: django_session_expire_date_a5c62663; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX django_session_expire_date_a5c62663 ON public.django_session USING btree (expire_date);
+
+
+--
+-- Name: django_session_session_key_c0390e0f_like; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX django_session_session_key_c0390e0f_like ON public.django_session USING btree (session_key varchar_pattern_ops);
+
+
+--
+-- Name: shop_order_customer_id_f638df20; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX shop_order_customer_id_f638df20 ON public.shop_order USING btree (customer_id);
+
+
+--
+-- Name: shop_productreview_product_id_cd68779d; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX shop_productreview_product_id_cd68779d ON public.shop_productreview USING btree (product_id);
+
+
+--
+-- Name: shop_productscollection_products_product_id_b66ea9c6; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX shop_productscollection_products_product_id_b66ea9c6 ON public.shop_productscollection_products USING btree (product_id);
+
+
+--
+-- Name: shop_productscollection_products_productscollection_id_b2992c99; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX shop_productscollection_products_productscollection_id_b2992c99 ON public.shop_productscollection_products USING btree (productscollection_id);
+
+
+--
+-- Name: shop_productsfororder_order_id_id_180d93c0; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX shop_productsfororder_order_id_id_180d93c0 ON public.shop_productsfororder USING btree (order_id);
+
+
+--
+-- Name: shop_productsfororder_product_id_49dc8e58; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX shop_productsfororder_product_id_49dc8e58 ON public.shop_productsfororder USING btree (product_id);
+
+
+--
+-- Name: auth_group_permissions auth_group_permissio_permission_id_84c5c92e_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissio_permission_id_84c5c92e_fk_auth_perm FOREIGN KEY (permission_id) REFERENCES public.auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_group_permissions auth_group_permissions_group_id_b120cbf9_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_group_permissions
+    ADD CONSTRAINT auth_group_permissions_group_id_b120cbf9_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES public.auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_permission auth_permission_content_type_id_2f476e4b_fk_django_co; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_permission
+    ADD CONSTRAINT auth_permission_content_type_id_2f476e4b_fk_django_co FOREIGN KEY (content_type_id) REFERENCES public.django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_groups auth_user_groups_group_id_97559544_fk_auth_group_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_group_id_97559544_fk_auth_group_id FOREIGN KEY (group_id) REFERENCES public.auth_group(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_groups auth_user_groups_user_id_6a12ed8b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_groups
+    ADD CONSTRAINT auth_user_groups_user_id_6a12ed8b_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_user_permissions auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permi_permission_id_1fbb5f2c_fk_auth_perm FOREIGN KEY (permission_id) REFERENCES public.auth_permission(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: auth_user_user_permissions auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.auth_user_user_permissions
+    ADD CONSTRAINT auth_user_user_permissions_user_id_a95ead1b_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: authtoken_token authtoken_token_user_id_35299eff_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.authtoken_token
+    ADD CONSTRAINT authtoken_token_user_id_35299eff_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: django_admin_log django_admin_log_content_type_id_c4bce8eb_fk_django_co; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_content_type_id_c4bce8eb_fk_django_co FOREIGN KEY (content_type_id) REFERENCES public.django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: django_admin_log django_admin_log_user_id_c564eba6_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.django_admin_log
+    ADD CONSTRAINT django_admin_log_user_id_c564eba6_fk_auth_user_id FOREIGN KEY (user_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: shop_order shop_order_customer_id_f638df20_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shop_order
+    ADD CONSTRAINT shop_order_customer_id_f638df20_fk_auth_user_id FOREIGN KEY (customer_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: shop_productreview shop_productreview_customer_id_8153551a_fk_auth_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shop_productreview
+    ADD CONSTRAINT shop_productreview_customer_id_8153551a_fk_auth_user_id FOREIGN KEY (customer_id) REFERENCES public.auth_user(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: shop_productreview shop_productreview_product_id_cd68779d_fk_shop_product_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shop_productreview
+    ADD CONSTRAINT shop_productreview_product_id_cd68779d_fk_shop_product_id FOREIGN KEY (product_id) REFERENCES public.shop_product(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: shop_productscollection_products shop_productscollect_product_id_b66ea9c6_fk_shop_prod; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shop_productscollection_products
+    ADD CONSTRAINT shop_productscollect_product_id_b66ea9c6_fk_shop_prod FOREIGN KEY (product_id) REFERENCES public.shop_product(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: shop_productscollection_products shop_productscollect_productscollection_i_b2992c99_fk_shop_prod; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shop_productscollection_products
+    ADD CONSTRAINT shop_productscollect_productscollection_i_b2992c99_fk_shop_prod FOREIGN KEY (productscollection_id) REFERENCES public.shop_productscollection(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: shop_productsfororder shop_productsfororder_order_id_398811f9_fk_shop_order_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shop_productsfororder
+    ADD CONSTRAINT shop_productsfororder_order_id_398811f9_fk_shop_order_id FOREIGN KEY (order_id) REFERENCES public.shop_order(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- Name: shop_productsfororder shop_productsfororder_product_id_49dc8e58_fk_shop_product_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.shop_productsfororder
+    ADD CONSTRAINT shop_productsfororder_product_id_49dc8e58_fk_shop_product_id FOREIGN KEY (product_id) REFERENCES public.shop_product(id) DEFERRABLE INITIALLY DEFERRED;
+
+
+--
+-- PostgreSQL database dump complete
+--
+

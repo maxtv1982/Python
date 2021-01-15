@@ -8,6 +8,12 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = '__all__'
 
+    def validate(self, attrs):
+        title = attrs.get('title')
+        if Product.objects.filter(title=title):
+            raise ValidationError({"title": "такой товар уже существует"})
+        return attrs
+
 
 class ProductReviewSerializer(serializers.ModelSerializer):
     class Meta:

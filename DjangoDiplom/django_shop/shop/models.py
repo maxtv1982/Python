@@ -1,7 +1,17 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from rest_framework.authtoken.models import Token
+
 
 User = get_user_model()
+
+
+@receiver(post_save, sender=User)
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)
 
 
 class OrderStatus(models.TextChoices):
@@ -30,7 +40,7 @@ class ProductReview(models.Model):
     updated_at = models.DateTimeField(auto_now=True, verbose_name='дата обновления')
 
     def __str__(self):
-        return "отзыв : {}".format(self.product.title)
+        return self.product.title
 
 
 class Order(models.Model):

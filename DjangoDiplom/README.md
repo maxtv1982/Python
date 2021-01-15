@@ -1,3 +1,10 @@
+﻿ pip install -r requirements.txt - установить все требуемые библиотеки python 
+
+ manage.py loaddata fixtures.json - дамп с тестовыми данными 
+ 
+ psql -U postgres -W django_diplom < db_sql.dump - дамп с тестовыми данными 
+
+
 # Дипломный проект по курсу «Django: создание функциональных веб-приложений»
 
 Разработать API для интернет-магазина.

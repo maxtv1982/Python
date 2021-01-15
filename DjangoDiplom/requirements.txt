@@ -1,3 +1,5 @@
+django_filter==2.4.0
 Django==3.1.2
-djangorestframework==3.12.1
+djangorestframework==3.12.2
 psycopg2-binary==2.8.6
+djoser==2.1.0

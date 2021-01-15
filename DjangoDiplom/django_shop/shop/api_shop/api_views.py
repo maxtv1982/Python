@@ -63,7 +63,7 @@ class OrderViewSet(ModelViewSet):
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     filter_class = OrderFilter
     ordering_fields = ['status', 'customer', 'final_price', 'created_at', 'updated_at', 'product_positions']
-    permission_classes = [IsCustomerOrAdmin,]
+    permission_classes = [IsCustomerOrAdmin, ]
 
     def get_queryset(self):
         if not self.request.user.is_staff:
